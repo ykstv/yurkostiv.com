@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yurii Kostiv</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #eef1f6;
+      padding: 2rem;
+      font-family: 'Arsenal', serif;
+    }
+
+    .card {
+      max-width: 580px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .card p {
+      font-size: clamp(1.25rem, 4vw, 1.75rem);
+      line-height: 1.65;
+      color: #1a1a1a;
+      cursor: default;
+      user-select: none;
+    }
+
+    .card a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .card a:visited {
+      color: inherit;
+    }
+
+    /* Style states applied to .card */
+    .card.s-bold     { font-weight: 700; font-style: normal; }
+    .card.s-italic   { font-weight: 400; font-style: italic; }
+
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <p>Hello!</p>
+    <p>I'm Yurii, a Product Manager,<br>and this is my playground for vibecoding.</p>
+    <p>Find me on <a href="https://www.linkedin.com/in/yurii-kostiv/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+  </div>
+
+  <script>
+    const card = document.getElementById('card');
+
+    const STYLES = ['', 's-bold', 's-italic'];
+    let current = '';
+
+    function applyStyle(next) {
+      STYLES.forEach(s => { if (s) card.classList.remove(s); });
+      if (next) card.classList.add(next);
+      current = next;
+    }
+
+    function pickRandom() {
+      const others = STYLES.filter(s => s !== current);
+      return others[Math.floor(Math.random() * others.length)];
+    }
+
+    card.addEventListener('mouseenter', () => applyStyle(pickRandom()));
+    card.addEventListener('mouseleave', () => applyStyle(''));
+
+    // Touch: tap anywhere on card (except LinkedIn) to cycle style, stays until next tap
+    card.addEventListener('touchend', (e) => {
+      if (e.target.tagName === 'A') return;
+      applyStyle(pickRandom());
+    });
+  </script>
+</body>
+</html>
